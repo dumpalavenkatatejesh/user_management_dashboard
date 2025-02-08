@@ -18,7 +18,6 @@ Responsive Design: Works seamlessly on desktop and mobile devices.
 **Deployment**: Vercel (Frontend), Render (Backend)
 
 **Project Setup**
-Prerequisites
 Node.js: Install Node.js from https://nodejs.org.
 
 MongoDB: Install MongoDB locally or use a cloud service like MongoDB Atlas.
@@ -31,6 +30,8 @@ Steps to Run the Project
 
 git clone https://github.com/your-username/user-management-dashboard.git
 cd user-management-dashboard
+
+
 Set Up the Backend:
 
 **Navigate to the server folder**:

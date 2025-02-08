@@ -61,23 +61,6 @@ npm start
 
 Open your browser and go to http://localhost:3000.
 
-**Directory Structure**
-user-management-dashboard/
-├── client/                  # Frontend (React)
-│   ├── public/              # Static assets
-│   ├── src/                 # React components and logic
-│   │   ├── App.js           # Main React component
-│   │   ├── App.css          # Styles for the app
-│   │   └── index.js         # Entry point for the React app
-│   ├── package.json         # Frontend dependencies
-│   └── README.md            # Frontend documentation
-│
-├── server/                  # Backend (Node.js/Express)
-│   ├── server.js            # Main backend file
-│   ├── package.json         # Backend dependencies
-│   └── .env                 # Environment variables
-│
-└── README.md                # Project documentation
 
 **Challenges Faced**
 Dependency Conflicts:

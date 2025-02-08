@@ -13,7 +13,7 @@ Delete Users: Remove users from the dashboard.
 
 Responsive Design: Works seamlessly on desktop and mobile devices.
 
-Technologies Used
+**Technologies Used**
 
 Frontend: React, Axios, CSS
 
@@ -21,7 +21,7 @@ Backend: Node.js, Express, MongoDB
 
 Deployment: Vercel (Frontend), Render (Backend)
 
-Project Setup
+**Project Setup**
 
 Prerequisites
 
@@ -33,33 +33,33 @@ Git: Install Git from https://git-scm.com
 
 Steps to Run the Project
 
-Clone the Repository:
+**Clone the Repository:**
 
 git clone https://github.com/your-username/user-management-dashboard.git
 cd user-management-dashboard
 
-Set Up the Backend:
+**Set Up the Backend:**
 
-Navigate to the server folder:
+**Navigate to the server folder:**
 
 cd server
 
-Install dependencies:
+**Install dependencies:**
 
 npm install
 
-Create a .env file in the server folder and add the following:
+**Create a .env file in the server folder and add the following:**
 
 MONGODB_URI=mongodb://localhost:27017/userdb
 PORT=5000
 
-Start the backend server:
+**Start the backend server**:
 
 node server.js
 
 Set Up the Frontend:
 
-Navigate to the client folder:
+**Navigate to the client folder:**
 
 cd ../client
 
@@ -67,15 +67,15 @@ Install dependencies:
 
 npm install
 
-Start the React app:
+**Start the React app:**
 
 npm start
 
-Access the Application:
+**Access the Application:**
 
 Open your browser and go to http://localhost:3000
 
-Directory Structure
+**Directory Structure**
 
 user-management-dashboard/
 ├── client/                  # Frontend (React)
@@ -94,7 +94,7 @@ user-management-dashboard/
 │
 └── README.md                # Project documentation
 
-Challenges Faced
+**Challenges Faced**
 
 Dependency Conflicts:
 
@@ -121,7 +121,7 @@ Resolved by enabling CORS in the backend using the cors middleware:
 const cors = require("cors");
 app.use(cors());
 
-Potential Improvements
+**Potential Improvements**
 
 Authentication: Add user authentication (e.g., login/signup) using JWT or OAuth.
 
@@ -133,11 +133,9 @@ Testing: Write unit and integration tests for both frontend and backend.
 
 Deployment: Deploy the application to a cloud platform (Vercel for frontend, Render for backend).
 
-Contributing
 
-Contributions are welcome! Follow these steps:
 
-Fork the repository.
+**Fork the repository.**
 
 Create a new branch:
 

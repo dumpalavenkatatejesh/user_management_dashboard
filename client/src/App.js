@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API_URL = "https://usermanagementdashboard-kyukxt8bd.vercel.app/api/users"; // Updated backend URL
-
 const UserDashboard = () => {
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({ name: "", email: "" });
@@ -11,6 +9,9 @@ const UserDashboard = () => {
   const [theme, setTheme] = useState("light");
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
+
+  // API Base URL (Replace with your deployed backend URL)
+  const API_URL = "http://localhost:5000/api/users";
 
   useEffect(() => {
     if (feedback.message) {
@@ -20,10 +21,10 @@ const UserDashboard = () => {
   }, [feedback]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme(prev => prev === "light" ? "dark" : "light");
+    document.body.className = theme;
   };
 
-  // Fetch users from the backend
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -36,7 +37,6 @@ const UserDashboard = () => {
     }
   };
 
-  // Handle form submission for adding/updating users
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -58,13 +58,11 @@ const UserDashboard = () => {
     }
   };
 
-  // Handle user edit
   const handleEdit = (user) => {
     setFormData({ name: user.name, email: user.email });
     setEditUserId(user._id);
   };
 
-  // Handle user delete
   const handleDelete = async (id) => {
     try {
       setLoading(true);
@@ -78,51 +76,52 @@ const UserDashboard = () => {
     }
   };
 
-  // Fetch users on component mount
   useEffect(() => {
     fetchUsers();
   }, []);
 
   return (
     <div className={`dashboard ${theme}`}>
-      {/* Theme Toggle */}
       <div className="theme-toggle-container">
         <button onClick={toggleTheme} className="holographic-btn">
           {theme === "light" ? "🌙 Night Mode" : "☀️ Day Mode"}
         </button>
       </div>
 
-      <h1>User Dashboard</h1>
+      <h1>✨ User Management Dashboard</h1>
 
-      {/* Feedback Messages */}
       {feedback.message && (
         <div className={`feedback ${feedback.type}`}>
           {feedback.type === "success" ? "✅" : "❌"} {feedback.message}
         </div>
       )}
 
-      {/* User Form */}
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Enter email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder=" "
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+          />
+          <label>Name</label>
+        </div>
+        <div className="input-group">
+          <input
+            type="email"
+            placeholder=" "
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+          <label>Email</label>
+        </div>
         <button type="submit" disabled={loading}>
           {loading ? <div className="loading-spinner" /> : editUserId ? "🔄 Update" : "➕ Add"}
         </button>
       </form>
 
-      {/* User Table */}
       <table>
         <thead>
           <tr>
@@ -137,10 +136,10 @@ const UserDashboard = () => {
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td className="actions">
-                <button onClick={() => handleEdit(user)} className="edit holographic-btn">
+                <button onClick={() => handleEdit(user)} className="edit">
                   ✏️ Edit
                 </button>
-                <button onClick={() => handleDelete(user._id)} className="delete holographic-btn">
+                <button onClick={() => handleDelete(user._id)} className="delete">
                   🗑️ Delete
                 </button>
               </td>

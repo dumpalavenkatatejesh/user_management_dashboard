@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -10,8 +10,8 @@ const UserDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
 
-  // API Base URL (Replace with your deployed backend URL)
-  const API_URL = "http://localhost:5000/api/users";
+  // Load API URL from .env file
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api/users";
 
   useEffect(() => {
     if (feedback.message) {
@@ -21,11 +21,12 @@ const UserDashboard = () => {
   }, [feedback]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === "light" ? "dark" : "light");
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
     document.body.className = theme;
   };
 
-  const fetchUsers = async () => {
+  // Fetch users from API
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(API_URL);
@@ -35,8 +36,13 @@ const UserDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_URL]);
 
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  // Handle form submission (add/update user)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -58,11 +64,13 @@ const UserDashboard = () => {
     }
   };
 
+  // Handle edit action
   const handleEdit = (user) => {
     setFormData({ name: user.name, email: user.email });
     setEditUserId(user._id);
   };
 
+  // Handle delete action
   const handleDelete = async (id) => {
     try {
       setLoading(true);
@@ -75,10 +83,6 @@ const UserDashboard = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   return (
     <div className={`dashboard ${theme}`}>

@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
+const API_URL = "https://usermanagementdashboard-kyukxt8bd.vercel.app/api/users"; // Updated backend URL
+
 const UserDashboard = () => {
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({ name: "", email: "" });
-  const [editUserId, setEditUserId] = useState(null); // Used for editing
+  const [editUserId, setEditUserId] = useState(null);
   const [theme, setTheme] = useState("light");
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
 
-  // Action Feedback Timeout
   useEffect(() => {
     if (feedback.message) {
       const timer = setTimeout(() => setFeedback({ type: "", message: "" }), 3000);
@@ -18,16 +19,15 @@ const UserDashboard = () => {
     }
   }, [feedback]);
 
-  // Toggle Theme
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  // Fetch Users
+  // Fetch users from the backend
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/users");
+      const response = await axios.get(API_URL);
       setUsers(response.data);
     } catch (error) {
       setFeedback({ type: "error", message: "Failed to fetch users!" });
@@ -36,21 +36,21 @@ const UserDashboard = () => {
     }
   };
 
-  // Handle Form Submission
+  // Handle form submission for adding/updating users
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       if (editUserId) {
-        await axios.put(`http://localhost:5000/api/users/${editUserId}`, formData);
+        await axios.put(`${API_URL}/${editUserId}`, formData);
         setFeedback({ type: "success", message: "User updated successfully!" });
       } else {
-        await axios.post("http://localhost:5000/api/users", formData);
+        await axios.post(API_URL, formData);
         setFeedback({ type: "success", message: "User added successfully!" });
       }
-      setFormData({ name: "", email: "" }); // Clear form
-      setEditUserId(null); // Reset edit mode
-      fetchUsers(); // Refresh user list
+      setFormData({ name: "", email: "" });
+      setEditUserId(null);
+      fetchUsers();
     } catch (error) {
       setFeedback({ type: "error", message: "Operation failed!" });
     } finally {
@@ -58,19 +58,19 @@ const UserDashboard = () => {
     }
   };
 
-  // Handle Edit User
+  // Handle user edit
   const handleEdit = (user) => {
-    setFormData({ name: user.name, email: user.email }); // Fill form with user data
-    setEditUserId(user._id); // Set the user ID for editing
+    setFormData({ name: user.name, email: user.email });
+    setEditUserId(user._id);
   };
 
-  // Handle Delete User
+  // Handle user delete
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:5000/api/users/${id}`);
+      await axios.delete(`${API_URL}/${id}`);
       setFeedback({ type: "success", message: "User deleted!" });
-      fetchUsers(); // Refresh user list
+      fetchUsers();
     } catch (error) {
       setFeedback({ type: "error", message: "Deletion failed!" });
     } finally {
@@ -137,16 +137,10 @@ const UserDashboard = () => {
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td className="actions">
-                <button
-                  onClick={() => handleEdit(user)}
-                  className="edit holographic-btn"
-                >
+                <button onClick={() => handleEdit(user)} className="edit holographic-btn">
                   ✏️ Edit
                 </button>
-                <button
-                  onClick={() => handleDelete(user._id)}
-                  className="delete holographic-btn"
-                >
+                <button onClick={() => handleDelete(user._id)} className="delete holographic-btn">
                   🗑️ Delete
                 </button>
               </td>
